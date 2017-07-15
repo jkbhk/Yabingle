@@ -9,6 +9,7 @@ package YabinglePack;
  *
  * @author looi
  */
-public class Test {
+public class Test 
+{
     
 }
