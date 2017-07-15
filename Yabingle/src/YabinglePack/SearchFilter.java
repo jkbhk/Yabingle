@@ -5,29 +5,32 @@
  */
 package YabinglePack;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Hoshi
  */
-public class URLReader extends RunnableObject
+public class SearchFilter extends RunnableObject
 {
     private String url;
-    
-    private StringBuilder pageSource;
 
-    public StringBuilder GetPageSource() 
+    private ArrayList<String> urlList;
+
+    public ArrayList<String> getURLList() 
     {
-        return pageSource;
+        return urlList;
     }
     
-    public URLReader(IProcessListener processListener, String url) 
+    public SearchFilter(IProcessListener processListener, String url) 
     {
         super(processListener);
     }
+    
     @Override
     public void RunProcess() 
     {
-        pageSource = HTMLReader.readPage(url);
+        StringBuilder pageSource = HTMLReader.readPage(url);
     }
    
 }
