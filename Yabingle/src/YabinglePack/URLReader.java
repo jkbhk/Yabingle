@@ -11,11 +11,23 @@ package YabinglePack;
  */
 public class URLReader extends RunnableObject
 {
+    private String url;
     
+    private StringBuilder pageSource;
+
+    public StringBuilder GetPageSource() 
+    {
+        return pageSource;
+    }
+    
+    public URLReader(IProcessListener processListener, String url) 
+    {
+        super(processListener);
+    }
     @Override
     public void RunProcess() 
     {
-        
+        pageSource = HTMLReader.readPage(url);
     }
    
 }

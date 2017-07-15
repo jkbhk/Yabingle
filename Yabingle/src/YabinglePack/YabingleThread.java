@@ -12,6 +12,12 @@ package YabinglePack;
 public class YabingleThread extends Thread
 {
     private RunnableObject runnableObject;
+    private Boolean isProcessing;
+
+    public Boolean GetIsProcessing() 
+    {
+        return isProcessing;
+    }
     
     public void SetRunnableObject(RunnableObject ro)
     {
@@ -21,6 +27,9 @@ public class YabingleThread extends Thread
     @Override
     public void run()
     {
+        isProcessing = true;
         runnableObject.run();
+        isProcessing = false;
+        ThreadManager.TryProcess();
     }
 }

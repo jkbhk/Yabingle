@@ -47,7 +47,19 @@ public class ThreadManager
     {
         if(threadList.size() > 0)
         {
-            
+            for(YabingleThread thread : threadList)
+            {
+                if(!thread.isAlive())
+                {
+                    RunnableObject ro = requestQueue.poll();
+                    if(ro != null)
+                    {
+                        thread.SetRunnableObject(ro);
+                        thread.start();
+                        break;
+                    }
+                }
+            }
         }
     }
 }
