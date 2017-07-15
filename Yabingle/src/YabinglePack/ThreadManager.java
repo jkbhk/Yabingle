@@ -21,11 +21,6 @@ public class ThreadManager
     
     public static void Initialize(int noOfThread)
     {
-        if(threadList.size() == noOfThread)
-        {
-            return;
-        }
-        
         if(threadList.size() < noOfThread)
         {
             for (int i = 0; i < noOfThread - threadList.size(); i++)
@@ -33,8 +28,14 @@ public class ThreadManager
                 threadList.add(new YabingleThread());
             }
         }
-        threadList.clear();
-        
+        else if (threadList.size() > noOfThread)
+        {
+            threadList.clear();
+            for (int i = 0; i < noOfThread - threadList.size(); i++)
+            {
+                threadList.add(new YabingleThread());
+            }
+        }
     }
     
     public static void AddRequest(RunnableObject requestObject)
