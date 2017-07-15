@@ -5,8 +5,9 @@
  */
 package YabinglePack;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,13 +18,15 @@ public class Homepage extends javax.swing.JFrame implements IProcessListener
     private ArrayList<String> urlResults = new ArrayList<>();
     
     private ArrayList<String> processedURL = new ArrayList<>();
+  
+
     /**
      * Creates new form Homepage
      */
     public Homepage() {
         initComponents();
-
-      
+  
+        
     }
 
     /**
@@ -134,6 +137,13 @@ public class Homepage extends javax.swing.JFrame implements IProcessListener
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
+        
+
+
+            Test.visitSite("https://www.google.com");
+  
+        
+        
     }//GEN-LAST:event_searchButtonActionPerformed
 
     /**
@@ -167,8 +177,9 @@ public class Homepage extends javax.swing.JFrame implements IProcessListener
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Homepage().setVisible(true);
-   
                 
+                
+          
                 
             }
         });
