@@ -11,29 +11,26 @@ package YabinglePack;
  */
 public abstract class RunnableObject implements Runnable
 {
+    private IProcessListener processListener;
+    
     private long startTime;
     private long stopTime;
     
+    public RunnableObject(IProcessListener processListener)
+    {
+        this.processListener = processListener;
+    }
     
     @Override
     public void run() 
     {
-        StartProcess();
-        RunProcess();
-        EndProcess();
-    }
-    
-    private void StartProcess()
-    {
         startTime = System.currentTimeMillis();
-    }
-
-    public abstract void RunProcess();
-    
-    private void EndProcess()
-    {
+        RunProcess();
         stopTime = System.currentTimeMillis();
+        processListener.Complete(this);
     }
+    
+    public abstract void RunProcess();
     
     public long GetProcessTime()
     {
