@@ -12,8 +12,11 @@ import java.net.URL;
  *
  * @author looi
  */
-public class Homepage extends javax.swing.JFrame {
-
+public class Homepage extends javax.swing.JFrame implements IProcessListener
+{
+    private ArrayList<String> urlResults = new ArrayList<>();
+    
+    private ArrayList<String> processedURL = new ArrayList<>();
     /**
      * Creates new form Homepage
      */
@@ -51,6 +54,11 @@ public class Homepage extends javax.swing.JFrame {
 
         searchButton.setForeground(new java.awt.Color(51, 51, 51));
         searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         unluckyButton.setForeground(new java.awt.Color(51, 51, 51));
         unluckyButton.setText("I'm feeling unlucky!");
@@ -124,6 +132,10 @@ public class Homepage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -172,4 +184,13 @@ public class Homepage extends javax.swing.JFrame {
     private javax.swing.JTextField searchTextField;
     private javax.swing.JButton unluckyButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void Complete(RunnableObject runnableObj) 
+    {
+        if(SearchFilter.class.isInstance(runnableObj))
+        {
+            ((SearchFilter)runnableObj).GetProcessTime();
+        }
+    }
 }
