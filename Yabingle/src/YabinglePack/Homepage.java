@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author looi
@@ -138,12 +139,14 @@ public class Homepage extends javax.swing.JFrame implements IProcessListener
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
         
-
-
-            Test.visitSite("https://www.google.com");
   
+        String file = HTMLReader.readPage("https://www.bing.com/search?q=cocacola").toString();
         
         
+        for(String href :  AdBlockPlusPlus.getHrefList(file, AdBlockPlusPlus.bingHrefPattern))
+        {
+            System.out.println(AdBlockPlusPlus.GetLink(href, AdBlockPlusPlus.bingLinkPattern));
+        }    
     }//GEN-LAST:event_searchButtonActionPerformed
 
     /**
