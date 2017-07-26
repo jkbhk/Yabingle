@@ -11,15 +11,16 @@ package YabinglePack;
  */
 public class YabingleThread extends Thread
 {
-    private RunnableObject runnableObject;
+    private TaskObject runnableObject;
     private Boolean isProcessing;
 
-    public Boolean GetIsProcessing() 
+    public Boolean GetAvailableStatus() 
     {
-        return isProcessing;
+        boolean process = (runnableObject != null)? runnableObject.IsProcessed() : true;
+        return (!isProcessing && process);
     }
     
-    public void SetRunnableObject(RunnableObject ro)
+    public void SetRunnableObject(TaskObject ro)
     {
         this.runnableObject = ro;
     }
@@ -27,9 +28,21 @@ public class YabingleThread extends Thread
     @Override
     public void run()
     {
-        isProcessing = true;
-        runnableObject.run();
-        isProcessing = false;
-        ThreadManager.TryProcess();
+        while(true)
+        {
+            if(runnableObject != null)
+            {
+                if(!runnableObject.IsProcessed() && !isProcessing)
+                {
+                    isProcessing = true;
+                    runnableObject.Run();
+                }
+                else if(runnableObject.IsProcessed() && isProcessing)
+                {
+                    isProcessing = false;
+                    ThreadManager.TryProcess();
+                }
+            }
+        }
     }
 }

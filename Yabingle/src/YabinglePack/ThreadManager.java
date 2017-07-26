@@ -15,7 +15,9 @@ import java.util.Queue;
  */
 public class ThreadManager 
 {
-    private static Queue<RunnableObject> requestQueue = new PriorityQueue<>();
+    public static long totalSearchTime;
+    
+    private static Queue<TaskObject> requestQueue = new PriorityQueue<>();
     
     private static ArrayList<YabingleThread> threadList = new ArrayList<>();
     
@@ -25,7 +27,9 @@ public class ThreadManager
         {
             for (int i = 0; i < noOfThread - threadList.size(); i++)
             {
-                threadList.add(new YabingleThread());
+                YabingleThread thread = new YabingleThread();
+                thread.start();
+                threadList.add(thread);
             }
         }
         else if (threadList.size() > noOfThread)
@@ -33,12 +37,19 @@ public class ThreadManager
             threadList.clear();
             for (int i = 0; i < noOfThread - threadList.size(); i++)
             {
-                threadList.add(new YabingleThread());
+                YabingleThread thread = new YabingleThread();
+                thread.start();
+                threadList.add(thread);
             }
         }
     }
     
-    public static void AddRequest(RunnableObject requestObject)
+    public static void AddTime(long time)
+    {
+        totalSearchTime += time;
+    }
+    
+    public static void AddRequest(TaskObject requestObject)
     {
         requestQueue.add(requestObject);
     }
@@ -49,13 +60,12 @@ public class ThreadManager
         {
             for(YabingleThread thread : threadList)
             {
-                if(!thread.isAlive())
+                if(!thread.GetAvailableStatus())
                 {
-                    RunnableObject ro = requestQueue.poll();
+                    TaskObject ro = requestQueue.poll();
                     if(ro != null)
                     {
                         thread.SetRunnableObject(ro);
-                        thread.start();
                         break;
                     }
                 }

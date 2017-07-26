@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author looi
  */
-public class Homepage extends javax.swing.JFrame implements IProcessListener
+public class Homepage extends javax.swing.JFrame
 {
     private ArrayList<String> urlResults = new ArrayList<>();
     
@@ -137,15 +137,15 @@ public class Homepage extends javax.swing.JFrame implements IProcessListener
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        
-
-
             Test.visitSite("https://www.google.com");
-  
-        
-        
+            
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    public void AddUrl(String url)
+    {
+        urlResults.add(url);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -196,12 +196,4 @@ public class Homepage extends javax.swing.JFrame implements IProcessListener
     private javax.swing.JButton unluckyButton;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void Complete(RunnableObject runnableObj) 
-    {
-        if(SearchFilter.class.isInstance(runnableObj))
-        {
-            ((SearchFilter)runnableObj).GetProcessTime();
-        }
-    }
 }

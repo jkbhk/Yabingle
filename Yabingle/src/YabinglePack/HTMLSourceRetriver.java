@@ -6,31 +6,27 @@
 package YabinglePack;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 /**
  *
  * @author Hoshi
  */
-public class SearchFilter extends RunnableObject
+public class HTMLSourceRetriver extends TaskObject
 {
+    private final Consumer<String> callback;
     private String url;
-
-    private ArrayList<String> urlList;
-
-    public ArrayList<String> getURLList() 
-    {
-        return urlList;
-    }
     
-    public SearchFilter(IProcessListener processListener, String url) 
+    public HTMLSourceRetriver(Consumer<String> callback, String url) 
     {
-        super(processListener);
+        this.callback = callback;
     }
     
     @Override
     public void RunProcess() 
     {
         StringBuilder pageSource = HTMLReader.readPage(url);
+        callback.accept(url);
     }
    
 }

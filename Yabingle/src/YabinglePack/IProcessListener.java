@@ -11,5 +11,5 @@ package YabinglePack;
  */
 public interface IProcessListener 
 {
-    void Complete(RunnableObject runnableObj);
+    void Complete(TaskObject runnableObj);
 }
