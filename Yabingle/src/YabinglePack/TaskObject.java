@@ -19,11 +19,9 @@ public abstract class TaskObject
     
     public void Run() 
     {
-        startTime = System.currentTimeMillis();        
-        System.out.println(startTime);
+        startTime = System.currentTimeMillis();
         RunProcess();
-        stopTime = System.currentTimeMillis();        
-        System.out.println(stopTime);
+        stopTime = System.currentTimeMillis();      
         isProcessed = true;
     }
 
