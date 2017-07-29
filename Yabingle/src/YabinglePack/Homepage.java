@@ -151,6 +151,9 @@ public class Homepage extends javax.swing.JFrame
             YabingleManager.SearchText(searchTextField.getText());
 
         }
+        BasicBrowser bb = new BasicBrowser("https://www.bing.com");
+        
+        
     }//GEN-LAST:event_searchButtonActionPerformed
 
     public void SetText(String msg)
@@ -194,10 +197,7 @@ public class Homepage extends javax.swing.JFrame
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Homepage().setVisible(true);
-                
-                
-          
-                
+
             }
         });
     }

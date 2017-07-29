@@ -7,29 +7,33 @@ package YabinglePack;
 
 import java.io.IOException;
 import java.net.URL;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
-
 /**
  *
  * @author looi
  */
 public class BasicBrowser extends javax.swing.JFrame {
 
-    /**
-     * Creates new form BasicBrowser
-     */
-    public BasicBrowser(){
+    private String link;
+    
+    
+    public BasicBrowser(String link){
         initComponents();
+        setVisible(true);
         
+        this.link = link;
         
-        try{
-        this.jEditorPane1.setPage(new URL("www.yahoo.com"));
-        }catch(IOException e)
+        try
         {
-            System.err.println("Bad url");
+            this.jEditorPane1.setPage(new URL(link));
         }
+        catch(IOException e)
+        {
+            System.err.println("invalid url :(");
+        }
+        
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,9 +97,10 @@ public class BasicBrowser extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+     
+         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BasicBrowser().setVisible(true);
+
             }
         });
     }
