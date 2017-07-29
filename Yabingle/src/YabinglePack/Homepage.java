@@ -24,7 +24,7 @@ public class Homepage extends javax.swing.JFrame
      */
     public Homepage() {
         initComponents();
-        ThreadManager.Initialize(2);
+        ThreadManager.Initialize(4);
         YabingleManager.Initialize(this);
     }
 
@@ -151,7 +151,7 @@ public class Homepage extends javax.swing.JFrame
             YabingleManager.SearchText(searchTextField.getText());
 
         }
-        BasicBrowser bb = new BasicBrowser("https://www.bing.com");
+        //BasicBrowser bb = new BasicBrowser("https://www.bing.com");
         
         
     }//GEN-LAST:event_searchButtonActionPerformed
@@ -161,9 +161,19 @@ public class Homepage extends javax.swing.JFrame
         jTextArea1.setText(msg);
     }
     
-    public void AddUrl(String url)
+    public void AddLink(String url)
     {
         urlResults.add(url);
+    }
+    
+    public boolean HaveLink(String url)
+    {
+        return urlResults.contains(url);
+    }
+    
+    public boolean HaveNoOfLinks(int no)
+    {
+        return (urlResults.size() == no);
     }
     
     /**
@@ -214,5 +224,6 @@ public class Homepage extends javax.swing.JFrame
     private javax.swing.JTextField searchTextField;
     private javax.swing.JButton unluckyButton;
     // End of variables declaration//GEN-END:variables
+
 
 }

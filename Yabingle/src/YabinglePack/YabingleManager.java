@@ -13,7 +13,6 @@ public class YabingleManager
 {
     public static class EngineReference
     {
-
         private String hrefPattern;
         private String searchPattern;
         
@@ -31,14 +30,15 @@ public class YabingleManager
   
     }
     
-    private static Homepage homepage;
-    
-     
     public static EngineReference Yahoo;
     public static EngineReference Bing;
     
+    private static Homepage homepage;
+    private static long searchTime;
+        
     private static final String yahooSearchPattern = "https://sg.search.yahoo.com/search?q=";
-    private static final String yahooHrefPattern = "<a class=\" td-u\" href=\"((http)|(https))[:][/]{2}\\S+\""; 
+    private static final String yahooHrefPattern = "<div class=\"yst result\"><h3 class=\"title\"><a href=\"((http)|(https))[:][/]{2}\\S+\"";
+            //"<a class=\" td-u\" href=\"((http)|(https))[:][/]{2}\\S+\""; 
     
     private static final String bingSearchPattern = "https://www.bing.com/search?q=";
     private static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}\\S+\"";
@@ -53,13 +53,15 @@ public class YabingleManager
     
     public static void SearchText(String searchText)
     {
+        searchTime = System.currentTimeMillis();
         searchText = searchText.replaceAll(" ", "+");
         String bingSearchLink = Bing.searchPattern + searchText;
-        //String yahooSearchLink = yahooSearchLinkFormat + searchText;
-        HTMLSourceTask bingHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), bingSearchLink,Bing);
+        String yahooSearchLink = Yahoo.searchPattern + searchText;
+        HTMLSourceTask bingHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), bingSearchLink, Bing);
         
-        //HTMLSourceTask yahooHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), yahooSearchLink);
-        ThreadManager.AddRequest(bingHTMLTask);   
+        HTMLSourceTask yahooHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), yahooSearchLink, Yahoo);
+        ThreadManager.AddRequest(bingHTMLTask);  
+        ThreadManager.AddRequest(yahooHTMLTask);
     }
     
     public static void GetLinks(HTMLSourceTask htmlSource)
@@ -69,8 +71,24 @@ public class YabingleManager
         ThreadManager.AddRequest(linkTask);
     }
     
-    public static void AddLink(String link)
+    public static synchronized void AddLink(String link)
     {
-        System.out.println(link);
+        if(!homepage.HaveLink(link))
+        {       
+            homepage.AddLink(link);
+            if(homepage.HaveNoOfLinks(10))
+            {
+                searchTime = System.currentTimeMillis() - searchTime;
+                homepage.SetText(String.valueOf(searchTime));
+            }
+            HTMLSourceTask linkHTMLTask = new HTMLSourceTask(linkTask-> DownloadLink(linkTask), link);
+            ThreadManager.AddRequest(linkHTMLTask);
+        }
     }
+    
+    public static void DownloadLink(HTMLSourceTask htmlSource)
+    {
+        System.out.println(htmlSource.getUrl());
+    }
+    
 }

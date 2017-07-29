@@ -39,9 +39,13 @@ public class HTMLSourceTask extends TaskObject
     {
         return engine;
     }
+
+    public String getUrl() {
+        return url;
+    }
     
-     public StringBuilder getPageSource() 
-     {
+    public StringBuilder getPageSource() 
+    {
         return pageSource;
     }
     
