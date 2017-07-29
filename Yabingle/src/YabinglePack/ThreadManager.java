@@ -5,6 +5,8 @@
  */
 package YabinglePack;
 
+import java.util.AbstractQueue;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class ThreadManager 
 {
-    private static final Queue<TaskObject> taskQueue = new PriorityQueue<>();
+    private static final Queue<TaskObject> taskQueue = new ArrayDeque<>();
     
     private static final ArrayList<YabingleThread> threadList = new ArrayList<>();
     
@@ -60,8 +62,11 @@ public class ThreadManager
                 if(thread.GetAvailableStatus())
                 {
                     TaskObject ro = taskQueue.poll();
-                    thread.SetRunnableObject(ro);
-                    break;
+                    if(ro != null)
+                    {                    
+                        thread.SetRunnableObject(ro);
+                        break;
+                    }
                 }
             }
         }

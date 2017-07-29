@@ -27,7 +27,6 @@ public class HTMLSourceTask extends TaskObject
     public void RunProcess() 
     {
         StringBuilder pageSource = HTMLReader.readPage(url);
-        System.out.println(GetProcessedTime());
         callback.accept(pageSource);
     }
    
