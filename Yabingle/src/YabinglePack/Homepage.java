@@ -6,8 +6,10 @@
 package YabinglePack;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
 
 
 /**
@@ -151,8 +153,10 @@ public class Homepage extends javax.swing.JFrame
             YabingleManager.SearchText(searchTextField.getText());
 
         }
-        BasicBrowser bb = new BasicBrowser("https://www.bing.com");
         
+        
+       
+       
         
     }//GEN-LAST:event_searchButtonActionPerformed
 
