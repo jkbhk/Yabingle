@@ -16,6 +16,7 @@ public class HTMLSourceTask extends TaskObject
 {
     private final Consumer<StringBuilder> callback;
     private String url;
+    private StringBuilder pageSource;
     
     public HTMLSourceTask(Consumer<StringBuilder> callback, String url) 
     {
@@ -26,7 +27,7 @@ public class HTMLSourceTask extends TaskObject
     @Override
     public void RunProcess() 
     {
-        StringBuilder pageSource = HTMLReader.readPage(url);
+        pageSource = HTMLReader.readPage(url);
         callback.accept(pageSource);
     }
    
