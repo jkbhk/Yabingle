@@ -14,11 +14,15 @@ import java.util.function.Consumer;
  */
 public class HTMLSourceTask extends TaskObject
 {
-    private final Consumer<StringBuilder> callback;
+    private final Consumer<HTMLSourceTask> callback;
     private String url;
     private StringBuilder pageSource;
+
+    public StringBuilder getPageSource() {
+        return pageSource;
+    }
     
-    public HTMLSourceTask(Consumer<StringBuilder> callback, String url) 
+    public HTMLSourceTask(Consumer<HTMLSourceTask> callback, String url) 
     {
         this.callback = callback;
         this.url = url;
@@ -28,7 +32,7 @@ public class HTMLSourceTask extends TaskObject
     public void RunProcess() 
     {
         pageSource = HTMLReader.readPage(url);
-        callback.accept(pageSource);
+        callback.accept(this);
     }
    
 }

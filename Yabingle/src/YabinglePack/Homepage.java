@@ -162,10 +162,10 @@ public class Homepage extends javax.swing.JFrame
     public void ReadLink(StringBuilder htmlSource)
     {
         
-        for(String href :  AdBlockPlusPlus.getHrefList("", AdBlockPlusPlus.bingHrefPattern))
-        {
-            System.out.println(AdBlockPlusPlus.GetLink(href, AdBlockPlusPlus.bingLinkPattern));
-        }    
+//        for(String href :  AdBlockPlusPlus.getHrefList("", AdBlockPlusPlus.bingHrefPattern))
+//        {
+//            System.out.println(AdBlockPlusPlus.GetLink(href, AdBlockPlusPlus.bingLinkPattern));
+//        }    
     }
     public void AddUrl(String url)
     {

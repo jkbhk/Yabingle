@@ -5,7 +5,7 @@ package YabinglePack;
  *
  * @author looi
  */
-public enum SeachEngineType
+public enum SearchEngineType
 {
     YAHOO,
     BING,

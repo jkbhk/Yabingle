@@ -32,8 +32,9 @@ public class YabingleManager
         ThreadManager.AddRequest(bingHTMLTask);
     }
     
-    public static void GetLinks(StringBuilder htmlSource)
+    public static void GetLinks(HTMLSourceTask htmlSource)
     {
         homepage.SetText(htmlSource.toString());
+        LinkRetriverTask linkTask = new LinkRetriverTask(htmlSource);
     }
 }

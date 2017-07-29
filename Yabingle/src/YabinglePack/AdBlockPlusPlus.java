@@ -23,10 +23,13 @@ public class AdBlockPlusPlus
     
     
     // This doesn't really remove ads, it just takes the non ad section
-    public static ArrayList<String> getHrefList(String page,String filterPattern)
+    public static ArrayList<String> getHrefList(String page, SearchEngineType type)
     {
         ArrayList<String> allMatches = new ArrayList<>();
-        pattern = Pattern.compile(filterPattern);
+        
+        
+        
+        pattern = Pattern.compile(GetSpecificFilterPattern(type));
         matcher = pattern.matcher(page);
         
         while(matcher.find())
@@ -37,6 +40,22 @@ public class AdBlockPlusPlus
         
         return allMatches;
         
+    }
+    
+    public static String GetSpecificFilterPattern(SearchEngineType type)
+    {
+        switch(type)
+        {
+            case YAHOO:
+                return null;
+                
+            case BING:
+                return bingHrefPattern;
+                
+            default:
+                return null;
+                
+        }
     }
     
     public static String GetLink(String s,String patternToExclude)
