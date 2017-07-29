@@ -23,6 +23,7 @@ public class YabingleManager
     
     public static void SearchText(String searchText)
     {
+        searchText = searchText.replaceAll(" ", "+");
         String bingSearchLink = bingSearchLinkFormat + searchText;
         //String yahooSearchLink = yahooSearchLinkFormat + searchText;
         

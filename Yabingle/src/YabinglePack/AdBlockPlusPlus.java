@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AdBlockPlusPlus {
-    
+/**
+ *
+ * @author looi
+ */
+
+public class AdBlockPlusPlus
+{
+
     public static final String hrefPattern = "(<a).+(</?a>)";
     public static final String linkPattern = "(.+=\")|(\".+)"; // use this with String.replaceAll
     public static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}[\\w./-]+\"";
