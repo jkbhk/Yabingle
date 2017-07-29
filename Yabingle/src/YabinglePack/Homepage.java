@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public class Homepage extends javax.swing.JFrame
 {
     private ArrayList<String> urlResults = new ArrayList<>();
-    
     private ArrayList<String> processedURL = new ArrayList<>();
   
 
@@ -26,8 +25,8 @@ public class Homepage extends javax.swing.JFrame
      */
     public Homepage() {
         initComponents();
-  
-        
+        ThreadManager.Initialize(2);
+        YabingleManager.Initialize(this);
     }
 
     /**
@@ -47,6 +46,8 @@ public class Homepage extends javax.swing.JFrame
         unluckyButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,7 +73,7 @@ public class Homepage extends javax.swing.JFrame
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(251, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(logo)
@@ -103,22 +104,30 @@ public class Homepage extends javax.swing.JFrame
         jEditorPane1.setContentType("text/html"); // NOI18N
         jScrollPane1.setViewportView(jEditorPane1);
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
@@ -138,17 +147,26 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
+        if(searchTextField.getText().length() > 0)
+        {                 
+            YabingleManager.SearchText(searchTextField.getText());
+
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    public void SetText(String msg)
+    {
+        jTextArea1.setText(msg);
+    }
+    
+    public void ReadLink(StringBuilder htmlSource)
+    {
         
-  
-        String file = HTMLReader.readPage("https://www.bing.com/search?q=cocacola").toString();
-        
-        
-        for(String href :  AdBlockPlusPlus.getHrefList(file, AdBlockPlusPlus.bingHrefPattern))
+        for(String href :  AdBlockPlusPlus.getHrefList("", AdBlockPlusPlus.bingHrefPattern))
         {
             System.out.println(AdBlockPlusPlus.GetLink(href, AdBlockPlusPlus.bingLinkPattern));
         }    
-    }//GEN-LAST:event_searchButtonActionPerformed
-
+    }
     public void AddUrl(String url)
     {
         urlResults.add(url);
@@ -198,6 +216,8 @@ public class Homepage extends javax.swing.JFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel logo;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;

@@ -5,44 +5,58 @@
  */
 package YabinglePack;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Hoshi
  */
 public class YabingleThread extends Thread
 {
-    private TaskObject runnableObject;
-    private Boolean isProcessing;
+    private TaskObject taskObject;
+    private boolean isProcessing = false;
 
-    public Boolean GetAvailableStatus() 
+    public boolean GetAvailableStatus() 
     {
-        boolean process = (runnableObject != null)? runnableObject.IsProcessed() : true;
-        return (!isProcessing && process);
+        boolean canProcess = (taskObject != null)? taskObject.IsProcessed() : false;
+        return (!isProcessing && !canProcess);
     }
     
     public void SetRunnableObject(TaskObject ro)
     {
-        this.runnableObject = ro;
+        this.taskObject = ro;
+        isProcessing = true;
     }
-    
+        
     @Override
     public void run()
     {
         while(true)
         {
-            if(runnableObject != null)
+            try 
             {
-                if(!runnableObject.IsProcessed() && !isProcessing)
+                Thread.sleep(1);            
+                
+                if(taskObject != null)
                 {
-                    isProcessing = true;
-                    runnableObject.Run();
+                    if(!taskObject.IsProcessed() && isProcessing)
+                    {
+                        taskObject.Run();
+                    }
+                    else if(taskObject.IsProcessed() && isProcessing)
+                    {
+                        isProcessing = false;
+                        ThreadManager.TryProcess();
+                    }
                 }
-                else if(runnableObject.IsProcessed() && isProcessing)
-                {
-                    isProcessing = false;
-                    ThreadManager.TryProcess();
-                }
+            } 
+            catch (InterruptedException ex) 
+            {
+                Logger.getLogger(YabingleThread.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+
         }
     }
 }

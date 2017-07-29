@@ -8,6 +8,8 @@ package YabinglePack;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,17 +17,16 @@ import java.util.Queue;
  */
 public class ThreadManager 
 {
-    public static long totalSearchTime;
+    private static final Queue<TaskObject> taskQueue = new PriorityQueue<>();
     
-    private static Queue<TaskObject> requestQueue = new PriorityQueue<>();
-    
-    private static ArrayList<YabingleThread> threadList = new ArrayList<>();
+    private static final ArrayList<YabingleThread> threadList = new ArrayList<>();
     
     public static void Initialize(int noOfThread)
     {
         if(threadList.size() < noOfThread)
         {
-            for (int i = 0; i < noOfThread - threadList.size(); i++)
+            int originalSize = threadList.size();
+            for (int i = 0; i < noOfThread - originalSize; i++)
             {
                 YabingleThread thread = new YabingleThread();
                 thread.start();
@@ -43,15 +44,11 @@ public class ThreadManager
             }
         }
     }
-    
-    public static void AddTime(long time)
-    {
-        totalSearchTime += time;
-    }
-    
+        
     public static void AddRequest(TaskObject requestObject)
     {
-        requestQueue.add(requestObject);
+        taskQueue.add(requestObject);
+        TryProcess();
     }
    
     public static void TryProcess()
@@ -60,14 +57,11 @@ public class ThreadManager
         {
             for(YabingleThread thread : threadList)
             {
-                if(!thread.GetAvailableStatus())
+                if(thread.GetAvailableStatus())
                 {
-                    TaskObject ro = requestQueue.poll();
-                    if(ro != null)
-                    {
-                        thread.SetRunnableObject(ro);
-                        break;
-                    }
+                    TaskObject ro = taskQueue.poll();
+                    thread.SetRunnableObject(ro);
+                    break;
                 }
             }
         }

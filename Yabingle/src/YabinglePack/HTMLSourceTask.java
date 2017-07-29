@@ -12,21 +12,23 @@ import java.util.function.Consumer;
  *
  * @author Hoshi
  */
-public class HTMLSourceRetriver extends TaskObject
+public class HTMLSourceTask extends TaskObject
 {
-    private final Consumer<String> callback;
+    private final Consumer<StringBuilder> callback;
     private String url;
     
-    public HTMLSourceRetriver(Consumer<String> callback, String url) 
+    public HTMLSourceTask(Consumer<StringBuilder> callback, String url) 
     {
         this.callback = callback;
+        this.url = url;
     }
     
     @Override
     public void RunProcess() 
     {
         StringBuilder pageSource = HTMLReader.readPage(url);
-        callback.accept(url);
+        System.out.println(GetProcessedTime());
+        callback.accept(pageSource);
     }
    
 }
