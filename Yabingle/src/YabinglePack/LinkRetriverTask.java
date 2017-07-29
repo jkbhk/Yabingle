@@ -29,7 +29,7 @@ public class LinkRetriverTask extends TaskObject
         
         for(String unfilteredLink : hrefList)
         {
-            callback.accept(AdBlockPlusPlus.GetLink(unfilteredLink, htmlSourceObj.getEngine()));
+            callback.accept(AdBlockPlusPlus.GetLink(unfilteredLink));
         }
         
         

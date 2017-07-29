@@ -15,6 +15,8 @@ public class AdBlockPlusPlus
     private static Pattern pattern;
     private static Matcher matcher;
     
+    private static final String linkExclusionPattern = "(.+=\")|(\")";
+    
     // This doesn't really remove ads, it just retrieves the non ad section
     public static ArrayList<String> getHrefList(StringBuilder page, YabingleManager.EngineReference ref)
     {
@@ -33,10 +35,10 @@ public class AdBlockPlusPlus
         
     }
 
-    public static String GetLink(String unfilteredLink,YabingleManager.EngineReference ref)
+    // Extracts only the link portion of a line
+    public static String GetLink(String unfilteredLink)
     {
-        String link =  unfilteredLink.replaceAll(ref.getLinkExclusionPattern(), "");
-        
+        String link =  unfilteredLink.replaceAll(linkExclusionPattern, ""); 
         return link;
     }
   

@@ -15,7 +15,6 @@ public class YabingleManager
     {
 
         private String hrefPattern;
-        private String linkExclusionPattern;
         private String searchPattern;
         
        
@@ -23,15 +22,10 @@ public class YabingleManager
             return hrefPattern;
         }
 
-        public String getLinkExclusionPattern() {
-            return linkExclusionPattern;
-        }
-       
         
-        public EngineReference(String hrefPattern, String linkExclusionPattern, String searchPattern)
+        public EngineReference(String hrefPattern, String searchPattern)
         {
             this.hrefPattern = hrefPattern;
-            this.linkExclusionPattern = linkExclusionPattern;
             this.searchPattern = searchPattern;
         }
   
@@ -44,17 +38,15 @@ public class YabingleManager
     public static EngineReference Bing;
     
     private static final String yahooSearchPattern = "https://sg.search.yahoo.com/search?q=";
-    private static final String yahooHrefPattern = "(<a).+(</?a>)";
-    private static final String yahooLinkPattern = "(.+=\")|(\".+)"; // use this with String.replaceAll
+    private static final String yahooHrefPattern = "<a class=\" td-u\" href=\"((http)|(https))[:][/]{2}\\S+\""; 
     
     private static final String bingSearchPattern = "https://www.bing.com/search?q=";
     private static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}\\S+\"";
-    private static final String bingLinkPattern = "(.+=\")|(\")";
 
     public static void Initialize(Homepage homepage)
     {
-        Yahoo = new EngineReference(yahooHrefPattern, yahooLinkPattern,yahooSearchPattern);
-        Bing = new EngineReference(bingHrefPattern, bingLinkPattern,bingSearchPattern);
+        Yahoo = new EngineReference(yahooHrefPattern,yahooSearchPattern);
+        Bing = new EngineReference(bingHrefPattern,bingSearchPattern);
         
         YabingleManager.homepage = homepage;
     }
