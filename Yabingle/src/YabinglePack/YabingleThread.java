@@ -19,7 +19,7 @@ public class YabingleThread extends Thread
 
     public boolean GetAvailableStatus() 
     {
-        boolean isAvailable = (taskObject != null)? taskObject.IsProcessed() : false;
+        boolean isAvailable = (taskObject != null)? taskObject.IsProcessed() : true;
         return (!isProcessing && isAvailable);
     }
     

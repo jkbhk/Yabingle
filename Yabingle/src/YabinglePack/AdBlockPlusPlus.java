@@ -11,56 +11,35 @@ import java.util.regex.Pattern;
 
 public class AdBlockPlusPlus
 {
-
-    public static final String hrefPattern = "(<a).+(</?a>)";
-    public static final String linkPattern = "(.+=\")|(\".+)"; // use this with String.replaceAll
-    public static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}[\\w./-]+\"";
-    public static final String bingLinkPattern = "(.+=\")|(\")";
-   
+    
     private static Pattern pattern;
     private static Matcher matcher;
      
     
-    
     // This doesn't really remove ads, it just takes the non ad section
-    public static ArrayList<String> getHrefList(String page, SearchEngineType type)
+    public static ArrayList<String> getHrefList(StringBuilder page, YabingleManager.EngineReference ref)
     {
         ArrayList<String> allMatches = new ArrayList<>();
         
         
         
-        pattern = Pattern.compile(GetSpecificFilterPattern(type));
+        pattern = Pattern.compile(ref.getHrefPattern());
         matcher = pattern.matcher(page);
         
         while(matcher.find())
         {
             allMatches.add(matcher.group());
+            System.out.println(matcher.group());
         }
-        
-        
+
         return allMatches;
         
     }
     
-    public static String GetSpecificFilterPattern(SearchEngineType type)
-    {
-        switch(type)
-        {
-            case YAHOO:
-                return null;
-                
-            case BING:
-                return bingHrefPattern;
-                
-            default:
-                return null;
-                
-        }
-    }
     
-    public static String GetLink(String s,String patternToExclude)
+    public static String GetLink(String unfilteredLink,YabingleManager.EngineReference ref)
     {
-        String link =  s.replaceAll(patternToExclude, "");
+        String link =  unfilteredLink.replaceAll(ref.getLinkExclusionPattern(), "");
         
         return link;
     }

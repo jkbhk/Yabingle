@@ -17,29 +17,32 @@ public class HTMLSourceTask extends TaskObject
     private final Consumer<HTMLSourceTask> callback;
     private String url;
     private StringBuilder pageSource;
-    private SearchEngineType engineType;
+    private YabingleManager.EngineReference engine;
 
-    public StringBuilder getPageSource() {
-        return pageSource;
-    }
     
     public HTMLSourceTask(Consumer<HTMLSourceTask> callback, String url) 
     {
         this.callback = callback;
         this.url = url;
-        engineType = SearchEngineType.NO_PREFERENCE;
+        engine = null;
         
     }
 
-    public HTMLSourceTask(Consumer<HTMLSourceTask> callback, String url, SearchEngineType engineType) 
+    public HTMLSourceTask(Consumer<HTMLSourceTask> callback, String url, YabingleManager.EngineReference engine) 
     {
         this.callback = callback;
         this.url = url;
-        this.engineType = engineType;
+        this.engine = engine;
     }
     
-    public SearchEngineType getEngineType() {
-        return engineType;
+    public YabingleManager.EngineReference getEngine()
+    {
+        return engine;
+    }
+    
+     public StringBuilder getPageSource() 
+     {
+        return pageSource;
     }
     
     
