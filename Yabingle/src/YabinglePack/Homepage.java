@@ -19,7 +19,6 @@ public class Homepage extends javax.swing.JFrame
     private ArrayList<String> urlResults = new ArrayList<>();
     private ArrayList<String> processedURL = new ArrayList<>();
   
-
     /**
      * Creates new form Homepage
      */
@@ -159,14 +158,6 @@ public class Homepage extends javax.swing.JFrame
         jTextArea1.setText(msg);
     }
     
-    public void ReadLink(StringBuilder htmlSource)
-    {
-        
-//        for(String href :  AdBlockPlusPlus.getHrefList("", AdBlockPlusPlus.bingHrefPattern))
-//        {
-//            System.out.println(AdBlockPlusPlus.GetLink(href, AdBlockPlusPlus.bingLinkPattern));
-//        }    
-    }
     public void AddUrl(String url)
     {
         urlResults.add(url);
