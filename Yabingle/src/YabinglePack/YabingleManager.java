@@ -111,23 +111,32 @@ public class YabingleManager
     
     public static void DownloadLink(HTMLSourceTask htmlSource)
     {
-        homepage.AddURLObject(new URLObject(htmlSource.getUrl(), htmlSource.getPageSource()));
-        
-        System.out.println(htmlSource.getUrl());
-        
-        if(homepage.HaveNoOfLinks(noOfResults))
+        if(htmlSource.getPageSource() == null)
         {
-            System.out.println("------------------------");
-            searchTime = System.currentTimeMillis() - searchTime;
-            System.out.println((searchTime/1000.0) + " seconds");
-            homepage.SetText(String.valueOf(searchTime));
-            searchProcessing = false;
-            System.out.println("------------------------");
+            tempURLList.remove(htmlSource.getUrl());
+        }
+        else
+        {
+        
+            homepage.AddURLObject(new URLObject(htmlSource.getUrl(), htmlSource.getPageSource()));
+        
+            System.out.println(htmlSource.getUrl());
+        
+            if(homepage.HaveNoOfLinks(noOfResults))
+            {
+              System.out.println("------------------------");
+              searchTime = System.currentTimeMillis() - searchTime;
+              System.out.println((searchTime/1000.0) + " seconds");
+              homepage.SetText(String.valueOf(searchTime));
+              searchProcessing = false;
+              System.out.println("------------------------");
+            }
+        
+            DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
+                , htmlSource.getPageSource().toString());
+            ThreadManager.AddRequest(downloadTask);
         }
         
-        DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
-                , htmlSource.getPageSource().toString());
-        ThreadManager.AddRequest(downloadTask);
         
         
     }

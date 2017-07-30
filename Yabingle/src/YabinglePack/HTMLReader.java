@@ -31,16 +31,18 @@ public class HTMLReader
         } 
         catch (MalformedURLException e) 
         {
-            e.printStackTrace();
-            return new StringBuilder("");
+            //e.printStackTrace();
+            System.out.println("Page unavailable");
+            return null;
         } 
         catch (IOException e) 
         {
-            e.printStackTrace();
-            return new StringBuilder("");
+            // 999 permission denied
+            System.out.println("Page unavailable");
+            return null;
         }
         
-        
+
     }
 
     
