@@ -122,7 +122,7 @@ public class YabingleManager
                 System.out.println("------------------------");
                 searchTime = System.currentTimeMillis() - searchTime;
                 System.out.println((searchTime/1000.0) + " seconds");
-                homepage.SetText(String.valueOf(searchTime));
+                homepage.SetText((searchTime/1000.0) + " seconds");
                 searchProcessing = false;
                 System.out.println("------------------------");
             }

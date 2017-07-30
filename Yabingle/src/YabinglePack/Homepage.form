@@ -236,7 +236,7 @@
                     <StringItem index="0" value="Slow"/>
                     <StringItem index="1" value="Normal"/>
                     <StringItem index="2" value="Fast"/>
-                    <StringItem index="3" value="Fastest"/>
+                    <StringItem index="3" value="Insane"/>
                   </StringArray>
                 </Property>
               </Properties>
