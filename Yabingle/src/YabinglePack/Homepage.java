@@ -221,6 +221,9 @@ public class Homepage extends javax.swing.JFrame
         // TODO add your handling code here:
         ThreadManager.Initialize(NUMBER_OF_THREADS);
         if(searchTextField.getText().length() > 0 && YabingleManager.CanSearch())
+        System.out.println("search");
+        ThreadManager.InitializeSearch(4);
+        if(searchTextField.getText().length() > 0)
         {
             YabingleManager.SearchText(searchTextField.getText());
         }
@@ -237,11 +240,6 @@ public class Homepage extends javax.swing.JFrame
             EzWebBrowser browser = new EzWebBrowser(urlResults.get(index).getUrl());
             }
         }
-        
-        
-        
-        
-        
         
     }//GEN-LAST:event_URLlistMouseClicked
 
@@ -274,6 +272,8 @@ public class Homepage extends javax.swing.JFrame
         if(urlResults.size() > 0)
         {        
             urlResults.clear();
+            listModel = new DefaultListModel<>();
+            URLlist.setModel(listModel);
         }
     }
     
@@ -312,7 +312,17 @@ public class Homepage extends javax.swing.JFrame
         
     }
     
-    
+    public boolean HaveUrlObject(String url)
+    {
+        for (URLObject urlObj : urlResults)
+        {
+            if (urlObj.getUrl().equals(url))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
     public boolean HaveNoOfLinks(int no)
     {

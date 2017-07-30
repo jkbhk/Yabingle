@@ -28,6 +28,12 @@ public class YabingleThread extends Thread
         this.taskObject = ro;
         isProcessing = true;
     }
+    
+    public void ResetThread()
+    {
+        taskObject = null;
+        isProcessing = false;
+    }
         
     @Override
     public void run()

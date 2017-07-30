@@ -77,7 +77,7 @@ public class YabingleManager
         searchTime = System.currentTimeMillis();
         homepage.ClearURLList();
         if(tempURLList.size() > 0)
-        {        
+        {
             tempURLList.clear();
         }
     }
@@ -111,27 +111,22 @@ public class YabingleManager
     
     public static void DownloadLink(HTMLSourceTask htmlSource)
     {
-        if(htmlSource.getPageSource() == null)
+        if(htmlSource.getPageSource() != null && !homepage.HaveUrlObject(htmlSource.getUrl()))
         {
-            tempURLList.remove(htmlSource.getUrl());
-        }
-        else
-        {
-        
             homepage.AddURLObject(new URLObject(htmlSource.getUrl(), htmlSource.getPageSource()));
-        
+
             System.out.println(htmlSource.getUrl());
-        
+
             if(homepage.HaveNoOfLinks(noOfResults))
             {
-              System.out.println("------------------------");
-              searchTime = System.currentTimeMillis() - searchTime;
-              System.out.println((searchTime/1000.0) + " seconds");
-              homepage.SetText(String.valueOf(searchTime));
-              searchProcessing = false;
-              System.out.println("------------------------");
+                System.out.println("------------------------");
+                searchTime = System.currentTimeMillis() - searchTime;
+                System.out.println((searchTime/1000.0) + " seconds");
+                homepage.SetText(String.valueOf(searchTime));
+                searchProcessing = false;
+                System.out.println("------------------------");
             }
-        
+
             DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
                 , htmlSource.getPageSource().toString());
             ThreadManager.AddRequest(downloadTask);

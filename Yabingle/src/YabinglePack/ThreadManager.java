@@ -23,8 +23,21 @@ public class ThreadManager
     
     private static final ArrayList<YabingleThread> threadList = new ArrayList<>();
     
-    public static void Initialize(int noOfThread)
+    public static void InitializeSearch(int noOfThread)
     {
+        if(taskQueue.size() > 0)
+        {
+            taskQueue.clear();
+        }
+        
+        if(threadList.size() > 0)
+        {
+            for (YabingleThread eachThread : threadList)
+            {
+                eachThread.ResetThread();
+            }
+        }
+        
         if(threadList.size() < noOfThread)
         {
             int originalSize = threadList.size();
