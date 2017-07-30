@@ -89,6 +89,12 @@ public class YabingleManager
     public static void DownloadLink(HTMLSourceTask htmlSource)
     {
         System.out.println(htmlSource.getUrl());
+        
+        DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
+                , htmlSource.getPageSource().toString());
+        ThreadManager.AddRequest(downloadTask);
+        
+        
     }
     
 }
