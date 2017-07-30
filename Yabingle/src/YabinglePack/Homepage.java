@@ -147,10 +147,9 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        if(searchTextField.getText().length() > 0)
-        {                 
+        if(searchTextField.getText().length() > 0 )
+        {
             YabingleManager.SearchText(searchTextField.getText());
-
         }
         
         
@@ -172,54 +171,14 @@ public class Homepage extends javax.swing.JFrame
         }
     }
     
-    public void AddLink(String url)
+    public void AddURLObject(URLObject urlObj)
     {
-        urlResults.add(new URLObject(url));
-    }
-    
-    public boolean HaveLink(String url)
-    {
-        for(URLObject obj : urlResults)
-        {
-            if (obj.getUrl().equals(url))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public void UpdateUrlPageSource(String url, StringBuilder pageSource)
-    {
-        for(URLObject obj : urlResults)
-        {
-            if (obj.getUrl().equals(url))
-            {
-                obj.setPageSource(pageSource);
-                break;
-            }
-        }
+        urlResults.add(urlObj);
     }
     
     public boolean HaveNoOfLinks(int no)
     {
         return (urlResults.size() == no);
-    }
-    
-    public boolean HaveAllDownloaded(int no)
-    {
-        if(urlResults.size() == no)
-        {
-            for(URLObject obj : urlResults)
-            {
-                if (obj.getPageSource() == null)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
     }
     
     /**

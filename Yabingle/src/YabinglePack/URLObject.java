@@ -16,9 +16,9 @@ public class URLObject implements Serializable
     private String url;
     private StringBuilder pageSource;
 
-    public URLObject(String url) {
+    public URLObject(String url, StringBuilder pageSource) {
         this.url = url;
-        pageSource = null;
+        this.pageSource = pageSource;
     }
     
     public String getUrl() {
@@ -29,9 +29,6 @@ public class URLObject implements Serializable
         return pageSource;
     }
 
-    public void setPageSource(StringBuilder pageSource) {
-        this.pageSource = pageSource;
-    }
     
     
 }

@@ -5,6 +5,8 @@
  */
 package YabinglePack;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Hoshi
@@ -43,6 +45,9 @@ public class YabingleManager
     private static final String bingSearchPattern = "https://www.bing.com/search?q=";
     private static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}\\S+\"";
 
+    private static int noOfResults = 10;
+    private static ArrayList<String> tempURLList = new ArrayList<>();
+    private static boolean searchProcessing = false;
     
     public static void Initialize(Homepage homepage)
     {
@@ -54,8 +59,7 @@ public class YabingleManager
     
     public static void SearchText(String searchText)
     {
-        searchTime = System.currentTimeMillis();
-        homepage.ClearURLList();
+        ResetSearch();
         
         searchText = searchText.replaceAll(" ", "+");
         String bingSearchLink = Bing.searchPattern + searchText;
@@ -67,6 +71,22 @@ public class YabingleManager
         ThreadManager.AddRequest(yahooHTMLTask);
     }
     
+    public static void ResetSearch()
+    {
+        searchProcessing = true;
+        searchTime = System.currentTimeMillis();
+        homepage.ClearURLList();
+        if(tempURLList.size() > 0)
+        {        
+            tempURLList.clear();
+        }
+    }
+    
+    public static boolean CanSearch()
+    {
+        return !searchProcessing;
+    }
+    
     public static void GetLinks(HTMLSourceTask htmlSource)
     {
         //homepage.SetText(htmlSource.getPageSource().toString());
@@ -76,10 +96,10 @@ public class YabingleManager
     
     public static synchronized void AddLink(String link)
     {
-        if(!homepage.HaveLink(link))
+        if(!tempURLList.contains(link))
         {       
-            homepage.AddLink(link);
-//            if(homepage.HaveNoOfLinks(10))
+            tempURLList.add(link);
+//            if(homepage.HaveNoOfLinks(noOfResults))
 //            {
 //                searchTime = System.currentTimeMillis() - searchTime;
 //                homepage.SetText(String.valueOf(searchTime));
@@ -91,12 +111,15 @@ public class YabingleManager
     
     public static void DownloadLink(HTMLSourceTask htmlSource)
     {
+        homepage.AddURLObject(new URLObject(htmlSource.getUrl(), htmlSource.getPageSource()));
+        
         System.out.println(htmlSource.getUrl());
-        homepage.UpdateUrlPageSource(htmlSource.getUrl(), htmlSource.getPageSource());
-        if(homepage.HaveAllDownloaded(10))
+        
+        if(homepage.HaveNoOfLinks(noOfResults))
         {
             searchTime = System.currentTimeMillis() - searchTime;
             homepage.SetText(String.valueOf(searchTime));
+            searchProcessing = false;
         }
     }
     
