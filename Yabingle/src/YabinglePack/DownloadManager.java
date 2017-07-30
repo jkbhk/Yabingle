@@ -10,14 +10,18 @@ import java.io.FileWriter;
  */
 public class DownloadManager 
 {
+    
+    private static final String directory = "downloaded files/";
+    private static final String htmlExtention = ".html";
     private static FileWriter fileWriter = null;
     private static BufferedWriter bufferedWriter = null;
+    
     
     public static void downloadFile(String url, String page)
     {
         try
         {
-            fileWriter = new FileWriter("downloaded files/" + createFileName(url) + ".html");    
+            fileWriter = new FileWriter(directory + createFileName(url) + htmlExtention);    
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(page);
             bufferedWriter.newLine();
