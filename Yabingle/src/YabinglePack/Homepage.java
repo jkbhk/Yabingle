@@ -19,9 +19,9 @@ import javax.swing.JList;
  */
 public class Homepage extends javax.swing.JFrame
 {
+    public ArrayList<URLObject> urlResults = new ArrayList<>();
     
     private static int NUMBER_OF_THREADS = 1;
-    private ArrayList<URLObject> urlResults = new ArrayList<>();
     private DefaultListModel<URLObject> listModel = new DefaultListModel<>();
   
     /**
