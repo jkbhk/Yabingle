@@ -117,9 +117,12 @@ public class YabingleManager
         
         if(homepage.HaveNoOfLinks(noOfResults))
         {
+            System.out.println("------------------------");
             searchTime = System.currentTimeMillis() - searchTime;
+            System.out.println((searchTime/1000.0) + " seconds");
             homepage.SetText(String.valueOf(searchTime));
             searchProcessing = false;
+            System.out.println("------------------------");
         }
         
         DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
