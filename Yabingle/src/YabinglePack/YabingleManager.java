@@ -49,7 +49,6 @@ public class YabingleManager
     private static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}\\S+\"";
     private static final String bingPagePattern = "first=";
     
-    private static int noOfResults = 10;
     private static ArrayList<String> tempURLList = new ArrayList<>();
     
     public static void Initialize(Homepage homepage)
@@ -105,7 +104,6 @@ public class YabingleManager
     {
         homepage.heartLabel.setVisible(false);
         homepage.SetText("");
-        searchProcessing = true;
         searchTime = System.currentTimeMillis();
         homepage.ClearURLList();
         if(tempURLList.size() > 0)
