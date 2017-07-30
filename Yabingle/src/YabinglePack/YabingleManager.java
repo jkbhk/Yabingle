@@ -35,6 +35,7 @@ public class YabingleManager
     
     public static EngineReference Yahoo;
     public static EngineReference Bing;
+    public static int noOfResults = 10;
     
     private static Homepage homepage;
     private static long searchTime;
@@ -102,6 +103,9 @@ public class YabingleManager
     
     public static void ResetSearch()
     {
+        homepage.heartLabel.setVisible(false);
+        homepage.SetText("");
+        searchProcessing = true;
         searchTime = System.currentTimeMillis();
         homepage.ClearURLList();
         if(tempURLList.size() > 0)
@@ -147,6 +151,7 @@ public class YabingleManager
                 System.out.println((searchTime/1000.0) + " seconds");
                 homepage.SetText((searchTime/1000.0) + " seconds");
                 System.out.println("------------------------");
+                homepage.heartLabel.setVisible(true);
             }
 
             DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
