@@ -19,6 +19,7 @@ import javax.swing.JList;
  */
 public class Homepage extends javax.swing.JFrame
 {
+    
     private static int NUMBER_OF_THREADS = 1;
     private ArrayList<URLObject> urlResults = new ArrayList<>();
     private DefaultListModel<URLObject> listModel = new DefaultListModel<>();
@@ -117,7 +118,7 @@ public class Homepage extends javax.swing.JFrame
 
         jLabel1.setText("Processing speed:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Slow", "Normal", "Fast", "Fastest" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Slow", "Normal", "Fast", "Insane" }));
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox1ItemStateChanged(evt);
@@ -219,10 +220,7 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        ThreadManager.Initialize(NUMBER_OF_THREADS);
-        if(searchTextField.getText().length() > 0 && YabingleManager.CanSearch())
-        System.out.println("search");
-        ThreadManager.InitializeSearch(4);
+        ThreadManager.InitializeSearch(NUMBER_OF_THREADS);
         if(searchTextField.getText().length() > 0)
         {
             YabingleManager.SearchText(searchTextField.getText());
@@ -236,8 +234,8 @@ public class Homepage extends javax.swing.JFrame
         {
             if (evt.getClickCount() == 2)
             {
-            int index = list.locationToIndex(evt.getPoint());  
-            EzWebBrowser browser = new EzWebBrowser(urlResults.get(index).getUrl());
+                int index = list.locationToIndex(evt.getPoint());  
+                EzWebBrowser browser = new EzWebBrowser(urlResults.get(index).getUrl());
             }
         }
         
@@ -245,8 +243,25 @@ public class Homepage extends javax.swing.JFrame
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        System.out.println("changed");
-        NUMBER_OF_THREADS = jComboBox1.getSelectedIndex() + 1;
+        switch(jComboBox1.getSelectedIndex())
+        {
+            case 0:
+                NUMBER_OF_THREADS = 1;
+                break;
+            case 1:
+                NUMBER_OF_THREADS = 2;
+                break;
+            case 2:
+                NUMBER_OF_THREADS = 4;
+                break;
+            case 3:
+                NUMBER_OF_THREADS = 12;
+                break;
+            default:
+                NUMBER_OF_THREADS = 2;
+            
+           
+        }
         System.out.println(NUMBER_OF_THREADS);
        
         
