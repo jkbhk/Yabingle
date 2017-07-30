@@ -38,7 +38,7 @@ public class ThreadManager
         else if (threadList.size() > noOfThread)
         {
             threadList.clear();
-            for (int i = 0; i < noOfThread - threadList.size(); i++)
+            for (int i = 0; i < noOfThread; i++)
             {
                 YabingleThread thread = new YabingleThread();
                 thread.start();
@@ -59,7 +59,7 @@ public class ThreadManager
         {
             for(YabingleThread thread : threadList)
             {
-                if(thread.GetAvailableStatus())
+                if(thread != null && thread.GetAvailableStatus())
                 {
                     TaskObject ro = taskQueue.poll();
                     if(ro != null)

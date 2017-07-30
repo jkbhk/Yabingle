@@ -36,7 +36,7 @@ public class YabingleThread extends Thread
         {
             try 
             {
-                Thread.sleep(1);            
+                Thread.sleep(10);            
                 
                 if(taskObject != null)
                 {

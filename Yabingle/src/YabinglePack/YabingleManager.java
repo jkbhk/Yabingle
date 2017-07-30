@@ -96,8 +96,8 @@ public class YabingleManager
     
     public static synchronized void AddLink(String link)
     {
-        if(!tempURLList.contains(link))
-        {       
+        if(!tempURLList.contains(link) && tempURLList.size() < noOfResults)
+        {
             tempURLList.add(link);
 //            if(homepage.HaveNoOfLinks(noOfResults))
 //            {

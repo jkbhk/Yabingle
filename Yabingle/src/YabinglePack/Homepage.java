@@ -25,7 +25,6 @@ public class Homepage extends javax.swing.JFrame
      */
     public Homepage() {
         initComponents();
-        ThreadManager.Initialize(4);
         YabingleManager.Initialize(this);
         DownloadManager.Initialize();
     }
@@ -148,15 +147,11 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        if(searchTextField.getText().length() > 0 )
+        ThreadManager.Initialize(4);
+        if(searchTextField.getText().length() > 0 && YabingleManager.CanSearch())
         {
             YabingleManager.SearchText(searchTextField.getText());
         }
-        
-        
-       
-       
-        
     }//GEN-LAST:event_searchButtonActionPerformed
 
     public void SetText(String msg)
