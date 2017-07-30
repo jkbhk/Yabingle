@@ -153,8 +153,9 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        ThreadManager.Initialize(4);
-        if(searchTextField.getText().length() > 0 && YabingleManager.CanSearch())
+        System.out.println("search");
+        ThreadManager.InitializeSearch(4);
+        if(searchTextField.getText().length() > 0)
         {
             YabingleManager.SearchText(searchTextField.getText());
         }
@@ -172,10 +173,6 @@ public class Homepage extends javax.swing.JFrame
 
         }
         
-        
-        
-        
-        
     }//GEN-LAST:event_URLlistMouseClicked
 
     public void SetText(String msg)
@@ -188,6 +185,8 @@ public class Homepage extends javax.swing.JFrame
         if(urlResults.size() > 0)
         {        
             urlResults.clear();
+            listModel = new DefaultListModel<>();
+            URLlist.setModel(listModel);
         }
     }
     
@@ -226,7 +225,17 @@ public class Homepage extends javax.swing.JFrame
         
     }
     
-    
+    public boolean HaveUrlObject(String url)
+    {
+        for (URLObject urlObj : urlResults)
+        {
+            if (urlObj.getUrl().equals(url))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
     public boolean HaveNoOfLinks(int no)
     {
