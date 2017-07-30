@@ -35,7 +35,7 @@ public class YabingleManager
     
     private static Homepage homepage;
     private static long searchTime;
-        
+    
     private static final String yahooSearchPattern = "https://sg.search.yahoo.com/search?q=";
     private static final String yahooHrefPattern = "<div class=\"yst result\"><h3 class=\"title\"><a href=\"((http)|(https))[:][/]{2}\\S+\"";
             //"<a class=\" td-u\" href=\"((http)|(https))[:][/]{2}\\S+\""; 
@@ -43,6 +43,7 @@ public class YabingleManager
     private static final String bingSearchPattern = "https://www.bing.com/search?q=";
     private static final String bingHrefPattern = "<li class=\"b_algo\"><h2><a href=\"((http)|(https)):[/]{2}\\S+\"";
 
+    
     public static void Initialize(Homepage homepage)
     {
         Yahoo = new EngineReference(yahooHrefPattern,yahooSearchPattern);
@@ -54,6 +55,8 @@ public class YabingleManager
     public static void SearchText(String searchText)
     {
         searchTime = System.currentTimeMillis();
+        homepage.ClearURLList();
+        
         searchText = searchText.replaceAll(" ", "+");
         String bingSearchLink = Bing.searchPattern + searchText;
         String yahooSearchLink = Yahoo.searchPattern + searchText;
@@ -76,11 +79,11 @@ public class YabingleManager
         if(!homepage.HaveLink(link))
         {       
             homepage.AddLink(link);
-            if(homepage.HaveNoOfLinks(10))
-            {
-                searchTime = System.currentTimeMillis() - searchTime;
-                homepage.SetText(String.valueOf(searchTime));
-            }
+//            if(homepage.HaveNoOfLinks(10))
+//            {
+//                searchTime = System.currentTimeMillis() - searchTime;
+//                homepage.SetText(String.valueOf(searchTime));
+//            }
             HTMLSourceTask linkHTMLTask = new HTMLSourceTask(linkTask-> DownloadLink(linkTask), link);
             ThreadManager.AddRequest(linkHTMLTask);
         }
@@ -89,6 +92,12 @@ public class YabingleManager
     public static void DownloadLink(HTMLSourceTask htmlSource)
     {
         System.out.println(htmlSource.getUrl());
+        homepage.UpdateUrlPageSource(htmlSource.getUrl(), htmlSource.getPageSource());
+        if(homepage.HaveAllDownloaded(10))
+        {
+            searchTime = System.currentTimeMillis() - searchTime;
+            homepage.SetText(String.valueOf(searchTime));
+        }
     }
     
 }

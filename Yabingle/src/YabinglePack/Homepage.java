@@ -18,8 +18,7 @@ import javafx.scene.web.WebView;
  */
 public class Homepage extends javax.swing.JFrame
 {
-    private ArrayList<String> urlResults = new ArrayList<>();
-    private ArrayList<String> processedURL = new ArrayList<>();
+    private ArrayList<URLObject> urlResults = new ArrayList<>();
   
     /**
      * Creates new form Homepage
@@ -165,19 +164,62 @@ public class Homepage extends javax.swing.JFrame
         jTextArea1.setText(msg);
     }
     
+    public void ClearURLList()
+    {
+        if(urlResults.size() > 0)
+        {        
+            urlResults.clear();
+        }
+    }
+    
     public void AddLink(String url)
     {
-        urlResults.add(url);
+        urlResults.add(new URLObject(url));
     }
     
     public boolean HaveLink(String url)
     {
-        return urlResults.contains(url);
+        for(URLObject obj : urlResults)
+        {
+            if (obj.getUrl().equals(url))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void UpdateUrlPageSource(String url, StringBuilder pageSource)
+    {
+        for(URLObject obj : urlResults)
+        {
+            if (obj.getUrl().equals(url))
+            {
+                obj.setPageSource(pageSource);
+                break;
+            }
+        }
     }
     
     public boolean HaveNoOfLinks(int no)
     {
         return (urlResults.size() == no);
+    }
+    
+    public boolean HaveAllDownloaded(int no)
+    {
+        if(urlResults.size() == no)
+        {
+            for(URLObject obj : urlResults)
+            {
+                if (obj.getPageSource() == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
     
     /**
