@@ -74,6 +74,7 @@ public class YabingleManager
     public static void ResetSearch()
     {
         homepage.heartLabel.setVisible(false);
+        homepage.SetText("");
         searchProcessing = true;
         searchTime = System.currentTimeMillis();
         homepage.ClearURLList();
