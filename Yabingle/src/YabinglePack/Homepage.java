@@ -27,6 +27,7 @@ public class Homepage extends javax.swing.JFrame
         initComponents();
         ThreadManager.Initialize(4);
         YabingleManager.Initialize(this);
+        DownloadManager.Initialize();
     }
 
     /**
