@@ -18,8 +18,7 @@ import javafx.scene.web.WebView;
  */
 public class Homepage extends javax.swing.JFrame
 {
-    private ArrayList<String> urlResults = new ArrayList<>();
-    private ArrayList<String> processedURL = new ArrayList<>();
+    private ArrayList<URLObject> urlResults = new ArrayList<>();
   
     /**
      * Creates new form Homepage
@@ -148,10 +147,9 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        if(searchTextField.getText().length() > 0)
-        {                 
+        if(searchTextField.getText().length() > 0 )
+        {
             YabingleManager.SearchText(searchTextField.getText());
-
         }
         
         
@@ -165,14 +163,17 @@ public class Homepage extends javax.swing.JFrame
         jTextArea1.setText(msg);
     }
     
-    public void AddLink(String url)
+    public void ClearURLList()
     {
-        urlResults.add(url);
+        if(urlResults.size() > 0)
+        {        
+            urlResults.clear();
+        }
     }
     
-    public boolean HaveLink(String url)
+    public void AddURLObject(URLObject urlObj)
     {
-        return urlResults.contains(url);
+        urlResults.add(urlObj);
     }
     
     public boolean HaveNoOfLinks(int no)
