@@ -30,7 +30,7 @@ public class EzWebBrowser extends javax.swing.JFrame {
         final JFXPanel fxPanel = new JFXPanel();
         add(fxPanel);
         fxPanel.setSize(885,575);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         Platform.runLater(new Runnable() {
             @Override

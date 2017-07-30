@@ -5,11 +5,12 @@
  */
 package YabinglePack;
 
+import java.awt.Component;
 import java.util.ArrayList;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebView;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
 
 
 /**
@@ -19,6 +20,7 @@ import javafx.scene.web.WebView;
 public class Homepage extends javax.swing.JFrame
 {
     private ArrayList<URLObject> urlResults = new ArrayList<>();
+    private DefaultListModel<URLObject> listModel = new DefaultListModel<>();
   
     /**
      * Creates new form Homepage
@@ -44,10 +46,10 @@ public class Homepage extends javax.swing.JFrame
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         unluckyButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        URLlist = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,12 +103,16 @@ public class Homepage extends javax.swing.JFrame
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jEditorPane1.setContentType("text/html"); // NOI18N
-        jScrollPane1.setViewportView(jEditorPane1);
-
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
+
+        URLlist.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                URLlistMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(URLlist);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,9 +121,9 @@ public class Homepage extends javax.swing.JFrame
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,8 +132,8 @@ public class Homepage extends javax.swing.JFrame
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
@@ -154,6 +160,24 @@ public class Homepage extends javax.swing.JFrame
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    private void URLlistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_URLlistMouseClicked
+        // TODO add your handling code here:
+        JList list = (JList)evt.getSource();
+        if (evt.getClickCount() == 2) {
+            
+            int index = list.locationToIndex(evt.getPoint());  
+            EzWebBrowser browser = new EzWebBrowser(urlResults.get(index).getUrl());
+          
+
+
+        }
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_URLlistMouseClicked
+
     public void SetText(String msg)
     {
         jTextArea1.setText(msg);
@@ -170,7 +194,39 @@ public class Homepage extends javax.swing.JFrame
     public void AddURLObject(URLObject urlObj)
     {
         urlResults.add(urlObj);
+        listModel.addElement(urlObj);
+        URLlist.setModel(listModel);
+        
+        URLlist.setCellRenderer(new DefaultListCellRenderer()
+                {
+                    @Override
+                    public Component getListCellRendererComponent(JList<?> list,
+                                                   Object value,
+                                                   int index,
+                                                   boolean isSelected,
+                                                   boolean cellHasFocus)
+                    {
+                        Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                        if (renderer instanceof JLabel && value instanceof URLObject)
+                        {
+                            URLObject urlobj = (URLObject)value;
+                            String text = urlobj.getUrl();
+                           
+                       
+                            ((JLabel)renderer).setText(text);
+                        }
+                        return renderer;
+                    }
+                    //@Override
+                    //public Component getListCellRendererComponent(JList<?>)
+                }
+                );
+        
+        
+        
     }
+    
+    
     
     public boolean HaveNoOfLinks(int no)
     {
@@ -214,11 +270,11 @@ public class Homepage extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JEditorPane jEditorPane1;
+    public javax.swing.JList URLlist;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel logo;
     private javax.swing.JButton searchButton;
