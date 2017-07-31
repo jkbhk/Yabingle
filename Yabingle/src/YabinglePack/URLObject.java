@@ -17,6 +17,10 @@ public class URLObject implements Serializable
     private StringBuilder pageSource;
     private int noOfOccuranceOfSearchPhrase;
 
+    public int getNoOfOccuranceOfSearchPhrase() {
+        return noOfOccuranceOfSearchPhrase;
+    }
+
     public URLObject(String url, StringBuilder pageSource, int noOfOccuranceOfSearchPhrase) {
         this.url = url;
         this.pageSource = pageSource;
@@ -30,6 +34,8 @@ public class URLObject implements Serializable
     public StringBuilder getPageSource() {
         return pageSource;
     }
+    
+    
 
     
     

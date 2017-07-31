@@ -366,7 +366,7 @@ public class Homepage extends javax.swing.JFrame
                         if (renderer instanceof JLabel && value instanceof URLObject)
                         {
                             URLObject urlobj = (URLObject)value;
-                            String text = urlobj.getUrl();
+                            String text = urlobj.getUrl() + " occurence: " + urlobj.getNoOfOccuranceOfSearchPhrase();
                            
                        
                             ((JLabel)renderer).setText(text);
