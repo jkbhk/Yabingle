@@ -30,6 +30,9 @@ public class Homepage extends javax.swing.JFrame
     
     private static int NUMBER_OF_THREADS = 1;
     private DefaultListModel<URLObject> listModel = new DefaultListModel<>();
+    
+    private EzWebBrowser ezBrowser;
+    private BasicBrowser basicBrowser;
   
     /**
      * Creates new form Homepage
@@ -63,6 +66,7 @@ public class Homepage extends javax.swing.JFrame
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
         searchTimeLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         catProgressBlack = new javax.swing.JLabel();
@@ -156,6 +160,13 @@ public class Homepage extends javax.swing.JFrame
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel3.setText("Settings:");
 
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "formatted page", "pure html tags" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -169,7 +180,9 @@ public class Homepage extends javax.swing.JFrame
                         .addGap(16, 16, 16)
                         .addComponent(jLabel1)
                         .addGap(92, 92, 92)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, 127, Short.MAX_VALUE))))
                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -181,7 +194,9 @@ public class Homepage extends javax.swing.JFrame
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanel4.setOpaque(false);
@@ -271,7 +286,12 @@ public class Homepage extends javax.swing.JFrame
             if (evt.getClickCount() == 2)
             {
                 int index = list.locationToIndex(evt.getPoint());  
-                EzWebBrowser browser = new EzWebBrowser(urlResults.get(index).getUrl());
+                URLObject obj = urlResults.get(index);
+                
+                if(jComboBox2.getSelectedIndex() == 0)
+                    ezBrowser = new EzWebBrowser(obj.getUrl());
+                else
+                    basicBrowser = new BasicBrowser(obj);
             }
         }
         
@@ -291,7 +311,7 @@ public class Homepage extends javax.swing.JFrame
                 NUMBER_OF_THREADS = 4;
                 break;
             case 3:
-                NUMBER_OF_THREADS = 12;
+                NUMBER_OF_THREADS = 70;
                 break;
             default:
                 NUMBER_OF_THREADS = 2;
@@ -331,6 +351,11 @@ public class Homepage extends javax.swing.JFrame
         }
         
     }//GEN-LAST:event_unluckyButtonActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     public void SetText(String msg)
     {
@@ -447,6 +472,7 @@ public class Homepage extends javax.swing.JFrame
     public javax.swing.JLabel catProgressBlack;
     public javax.swing.JLabel heartLabel;
     private javax.swing.JComboBox jComboBox1;
+    public javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

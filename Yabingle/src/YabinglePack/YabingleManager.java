@@ -36,7 +36,7 @@ public class YabingleManager
     public static String currentSearchWord;
     public static EngineReference Yahoo;
     public static EngineReference Bing;
-    public static int noOfResults = 10;
+    public static int noOfResults = 50;
     
     private static Homepage homepage;
     private static long searchTime;
