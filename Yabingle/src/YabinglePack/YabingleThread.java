@@ -59,7 +59,10 @@ public class YabingleThread extends Thread
             } 
             catch (InterruptedException ex) 
             {
-                Logger.getLogger(YabingleThread.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(YabingleThread.class.getName()).log(Level.SEVERE, null, ex);      
+            }
+            catch(Exception e)
+            {
             }
             
 

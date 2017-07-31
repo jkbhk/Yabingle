@@ -171,6 +171,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="I&apos;m feeling unlucky!"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unluckyButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
