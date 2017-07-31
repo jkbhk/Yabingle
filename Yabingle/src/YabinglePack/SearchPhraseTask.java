@@ -40,23 +40,23 @@ public class SearchPhraseTask extends TaskObject
     
     @Override
     public void RunProcess()   
-    {//        
-        pattern = Pattern.compile("(" + YabingleManager.currentSearchWord + ")");
-        matcher = pattern.matcher(sourceTask.getPageSource().toString());
+    {//  //       
+        try 
+        {      
+            pattern = Pattern.compile("(" + YabingleManager.currentSearchWord + ")");
+            matcher = pattern.matcher(sourceTask.getPageSource().toString());
         
-//        try {
             while(matcher.find())
             {
                 searchPhraseOccurance++;
-            }
-//        } 
-//        catch (Exception e) 
-//        {
-//            System.out.println("error");
-//        }
+            }        
+            callback.accept(this);
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("error");
+        }
 
-        
-        callback.accept(this);
     }
     
 }

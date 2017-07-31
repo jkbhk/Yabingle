@@ -25,9 +25,16 @@ public class DownloadTask extends TaskObject
     @Override
     public void RunProcess() 
     {
-        DownloadManager.downloadFile(fileName, page);
-        if(canCallback){
-            callback.run();
+        try
+        {
+            DownloadManager.downloadFile(fileName, page);
+            if(canCallback){
+                callback.run();
+            }
+        }
+        catch(Exception e)
+        {
+            
         }
     }
     
