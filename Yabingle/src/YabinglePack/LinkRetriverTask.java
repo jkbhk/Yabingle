@@ -14,9 +14,9 @@ public class LinkRetriverTask extends TaskObject
     private ArrayList<String> hrefList = new ArrayList<>();
     private Consumer<String> callback;
     
-    private ArrayList<URLObject> urlResults;
+    private PriorityList<URLObject> urlResults;
     
-    public LinkRetriverTask(HTMLSourceTask htmlTaskObj,Consumer<String> callback, ArrayList<URLObject> urlResults)
+    public LinkRetriverTask(HTMLSourceTask htmlTaskObj,Consumer<String> callback, PriorityList<URLObject> urlResults)
     {
         this.htmlSourceObj = htmlTaskObj;
         this.callback = callback;
@@ -33,7 +33,7 @@ public class LinkRetriverTask extends TaskObject
             callback.accept(AdBlockPlusPlus.GetLink(unfilteredLink));
         }
         
-        if (urlResults.size() < 10)
+        if (urlResults.Count()< YabingleManager.noOfResults)
         {
             YabingleManager.SearchNextPage(htmlSourceObj);
         }

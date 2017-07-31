@@ -5,6 +5,8 @@
  */
 package YabinglePack;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -74,7 +76,7 @@ public class YabingleManager
         String yahooSearchLink = Yahoo.searchPattern + searchText + "&" + Yahoo.pagePattern + (((page - 1) * 10) + 1);
         
         HTMLSourceTask bingHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), bingSearchLink, Bing);
-        HTMLSourceTask yahooHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), yahooSearchLink, Yahoo);
+        HTMLSourceTask yahooHTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), yahooSearchLink, Yahoo) ;
         
         ThreadManager.AddRequest(bingHTMLTask);
         ThreadManager.AddRequest(yahooHTMLTask);
@@ -98,7 +100,7 @@ public class YabingleManager
         searchLink = sourceTask.getUrl().replaceAll("(" + sourceTask.getEngine().pagePattern +").+",sourceTask.getEngine().pagePattern + pageNum);
         
         HTMLSourceTask HTMLTask = new HTMLSourceTask(pageSource -> GetLinks(pageSource), searchLink, sourceTask.getEngine());
-        
+        System.out.println(HTMLTask.getUrl());
         ThreadManager.AddRequest(HTMLTask);
     }
     
@@ -146,27 +148,34 @@ public class YabingleManager
         }
     }
     
-    public static void DownloadLink(SearchPhraseTask searchTask)
+    public static synchronized void DownloadLink(SearchPhraseTask searchTask)
     {
-        if(!homepage.HaveUrlObject(searchTask.getSourceTask().getUrl()) && homepage.urlResults.size() < noOfResults)
+        if(!homepage.HaveUrlObject(searchTask.getSourceTask().getUrl()) && homepage.urlResults.Count() < noOfResults)
         {
             homepage.AddURLObject(new URLObject(searchTask.getSourceTask().getUrl(), searchTask.getSourceTask().getPageSource(), searchTask.getSearchPhraseOccurance()));
 
             System.out.println(searchTask.getSourceTask().getUrl());
 
-            if(homepage.HaveNoOfLinks(noOfResults))
-            {
-                System.out.println("------------------------");
-                searchTime = System.currentTimeMillis() - searchTime;
-                System.out.println((searchTime/1000.0) + " seconds");
-                homepage.SetText((searchTime/1000.0) + " seconds");
-                System.out.println("------------------------");
-                homepage.heartLabel.setVisible(true);
-            }
-
             DownloadTask downloadTask = new DownloadTask(searchTask.getSourceTask().getUrl()
-                , searchTask.getSourceTask().getPageSource().toString());
+                , searchTask.getSourceTask().getPageSource().toString(), ()-> Complete(),homepage.HaveNoOfLinks(noOfResults));
+            
             ThreadManager.AddRequest(downloadTask);
         }    
+    }
+    
+    public static void Complete()
+    {
+        ThreadManager.StopProcesses();
+        System.out.println("------------------------");
+        long stopSearchTime = System.currentTimeMillis() - searchTime;
+
+        DecimalFormat df = new DecimalFormat("#.00");
+        String timeTaken = df.format(stopSearchTime/1000.0);
+
+        System.out.println(timeTaken + " seconds");
+        homepage.SetText(timeTaken + " seconds");
+        System.out.println("------------------------");
+        homepage.heartLabel.setVisible(true);
+        homepage.UpdateDisplay();
     }
 }

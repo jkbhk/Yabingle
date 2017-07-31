@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Hoshi
  */
-public class URLObject implements Serializable
+public class URLObject implements Serializable, Comparable
 {
     private String url;
     private StringBuilder pageSource;
@@ -34,6 +34,17 @@ public class URLObject implements Serializable
     public StringBuilder getPageSource() {
         return pageSource;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        URLObject otherObj = (URLObject)o;
+        if(noOfOccuranceOfSearchPhrase > otherObj.noOfOccuranceOfSearchPhrase)
+        {
+            return 1;
+        }
+        return -1;
+    }
+
     
     
 

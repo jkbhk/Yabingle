@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class Homepage extends javax.swing.JFrame
 {
-    public ArrayList<URLObject> urlResults = new ArrayList<>();
+    public volatile PriorityList<URLObject> urlResults = new PriorityList<>();
     
     private static int NUMBER_OF_THREADS = 1;
     private DefaultListModel<URLObject> listModel = new DefaultListModel<>();
@@ -67,6 +67,9 @@ public class Homepage extends javax.swing.JFrame
         jComboBox1 = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
         searchTimeLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         catProgressBlack = new javax.swing.JLabel();
@@ -103,28 +106,28 @@ public class Homepage extends javax.swing.JFrame
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(246, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(214, 214, 214))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(unluckyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(315, 315, 315))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(logo)
-                        .addGap(288, 288, 288))))
+                .addGap(183, 183, 183)
+                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(unluckyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(304, 304, 304))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(257, 257, 257)
+                .addComponent(logo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(25, 25, 25)
                 .addComponent(logo)
-                .addGap(18, 18, 18)
-                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(unluckyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -141,29 +144,20 @@ public class Homepage extends javax.swing.JFrame
         jLabel1.setText("Processing speed:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Slow", "Normal", "Fast", "Insane" }));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
-            }
-        });
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        jComboBox1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jComboBox1PropertyChange(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel3.setText("Settings:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "formatted page", "pure html tags" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Advance Browser", "Pure HTML Source", "Web Local" }));
+
+        jLabel2.setText("URL Display");
+
+        jLabel4.setText("No of Results");
+
+        jSpinner1.setValue(10);
+        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner1StateChanged(evt);
             }
         });
 
@@ -171,32 +165,43 @@ public class Homepage extends javax.swing.JFrame
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel1)
-                        .addGap(92, 92, 92)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSpinner1)
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, 127, Short.MAX_VALUE))))
-                .addContainerGap(102, Short.MAX_VALUE))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel3)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24))
         );
 
         jPanel4.setOpaque(false);
@@ -219,39 +224,37 @@ public class Homepage extends javax.swing.JFrame
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(searchTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(heartLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(heartLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchTimeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
                                 .addComponent(heartLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(135, 135, 135)
+                                .addGap(101, 101, 101)
                                 .addComponent(searchTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -271,7 +274,26 @@ public class Homepage extends javax.swing.JFrame
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
+        switch(jComboBox1.getSelectedIndex())
+        {
+            case 0:
+                NUMBER_OF_THREADS = 1;
+                break;
+            case 1:
+                NUMBER_OF_THREADS = 2;
+                break;
+            case 2:
+                NUMBER_OF_THREADS = 4;
+                break;
+            case 3:
+                NUMBER_OF_THREADS = 20;
+                break;
+            default:
+                NUMBER_OF_THREADS = 2;
+        }
+        System.out.println(NUMBER_OF_THREADS);
         ThreadManager.InitializeSearch(NUMBER_OF_THREADS);
+        YabingleManager.noOfResults = (int)jSpinner1.getValue();
         if(searchTextField.getText().length() > 0)
         {
             YabingleManager.SearchText(searchTextField.getText());
@@ -286,52 +308,29 @@ public class Homepage extends javax.swing.JFrame
             if (evt.getClickCount() == 2)
             {
                 int index = list.locationToIndex(evt.getPoint());  
-                URLObject obj = urlResults.get(index);
+                URLObject obj = urlResults.At(index);
                 
                 if(jComboBox2.getSelectedIndex() == 0)
                     ezBrowser = new EzWebBrowser(obj.getUrl());
-                else
+                else if (jComboBox2.getSelectedIndex() == 1)
                     basicBrowser = new BasicBrowser(obj);
+                else
+                {
+                    File file = new File(DownloadManager.getFileName(urlResults.At(index).getUrl()));
+                    if (file.exists()) {
+                        try 
+                        {   
+                            Desktop.getDesktop().open(file) ;
+                        } 
+                        catch (IOException ex) {
+                            Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
             }
         }
         
     }//GEN-LAST:event_URLlistMouseClicked
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        switch(jComboBox1.getSelectedIndex())
-        {
-            case 0:
-                NUMBER_OF_THREADS = 1;
-                break;
-            case 1:
-                NUMBER_OF_THREADS = 2;
-                break;
-            case 2:
-                NUMBER_OF_THREADS = 4;
-                break;
-            case 3:
-                NUMBER_OF_THREADS = 70;
-                break;
-            default:
-                NUMBER_OF_THREADS = 2;
-            
-           
-        }
-        System.out.println(NUMBER_OF_THREADS);
-       
-        
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
-
-    private void jComboBox1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBox1PropertyChange
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jComboBox1PropertyChange
 
     private void unluckyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unluckyButtonActionPerformed
         // TODO add your handling code here:
@@ -352,10 +351,13 @@ public class Homepage extends javax.swing.JFrame
         
     }//GEN-LAST:event_unluckyButtonActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        if((int)jSpinner1.getValue() < 1)
+        {
+            jSpinner1.setValue(1);
+        }
+    }//GEN-LAST:event_jSpinner1StateChanged
 
     public void SetText(String msg)
     {
@@ -364,9 +366,9 @@ public class Homepage extends javax.swing.JFrame
     
     public void ClearURLList()
     {
-        if(urlResults.size() > 0)
+        if(urlResults.Count() > 0)
         {        
-            urlResults.clear();
+            urlResults.Clear();
             listModel = new DefaultListModel<>();
             URLlist.setModel(listModel);
         }
@@ -374,50 +376,19 @@ public class Homepage extends javax.swing.JFrame
     
     public void AddURLObject(URLObject urlObj)
     {
-        urlResults.add(urlObj);
-        listModel.addElement(urlObj);
-        URLlist.setModel(listModel);
+        urlResults.Add(urlObj);
         
-        URLlist.setCellRenderer(new DefaultListCellRenderer()
-                {
-                    @Override
-                    public Component getListCellRendererComponent(JList<?> list,
-                                                   Object value,
-                                                   int index,
-                                                   boolean isSelected,
-                                                   boolean cellHasFocus)
-                    {
-                        Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                        if (renderer instanceof JLabel && value instanceof URLObject)
-                        {
-                            URLObject urlobj = (URLObject)value;
-                            String text = urlobj.getUrl() + " occurence: " + urlobj.getNoOfOccuranceOfSearchPhrase();
-                           
-                       
-                            ((JLabel)renderer).setText(text);
-                        }
-                        return renderer;
-                    }
-                    //@Override
-                    //public Component getListCellRendererComponent(JList<?>)
-                }
-                );
-        
-        
-        float progress =  1.0f - (float)urlResults.size()/(float)YabingleManager.noOfResults;
+        float progress =  1.0f - (float)urlResults.Count()/(float)YabingleManager.noOfResults;
         System.out.println(progress);
-       catProgressBlack.setSize(catProgressBlack.getWidth(),(int)(catProgressBlack.getIcon().getIconHeight() * progress));
-       
-        //System.out.println(catProgress.getIcon().getIconHeight() * (urlResults.size()/YabingleManager.noOfResults));
-        
+        catProgressBlack.setSize(catProgressBlack.getWidth(),(int)(catProgressBlack.getIcon().getIconHeight() * progress));
         
     }
     
     public boolean HaveUrlObject(String url)
     {
-        for (URLObject urlObj : urlResults)
+        for (int i = 0; i < urlResults.Count(); i++)
         {
-            if (urlObj.getUrl().equals(url))
+            if (urlResults.At(i).getUrl().equals(url))
             {
                 return true;
             }
@@ -427,7 +398,41 @@ public class Homepage extends javax.swing.JFrame
     
     public boolean HaveNoOfLinks(int no)
     {
-        return (urlResults.size() == no);
+        return (urlResults.Count() == no);
+    }
+    
+    public void UpdateDisplay()
+    {
+        listModel = new DefaultListModel<>();
+        
+        for (int i = 0; i < urlResults.Count(); i++)
+        {
+            listModel.addElement(urlResults.At(i));
+        }
+        URLlist.setModel(listModel);
+        
+        URLlist.setCellRenderer(new DefaultListCellRenderer()
+            {
+                @Override
+                public Component getListCellRendererComponent(JList<?> list,
+                                               Object value,
+                                               int index,
+                                               boolean isSelected,
+                                               boolean cellHasFocus)
+                {
+                    Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (renderer instanceof JLabel && value instanceof URLObject)
+                    {
+                        URLObject urlobj = (URLObject)value;
+                        String text = urlobj.getUrl() + " occurence: " + urlobj.getNoOfOccuranceOfSearchPhrase();
+
+
+                        ((JLabel)renderer).setText(text);
+                    }
+                    return renderer;
+                }
+            }
+        );
     }
     
     /**
@@ -474,12 +479,15 @@ public class Homepage extends javax.swing.JFrame
     private javax.swing.JComboBox jComboBox1;
     public javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel logo;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;

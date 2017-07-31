@@ -41,10 +41,17 @@ public class DownloadManager
 
     }
     
+    public static String getFileName(String url)
+    {
+        return directory + createFileName(url) + htmlExtention;
+    }
+    
     private static String createFileName(String unfiltered)
     {
         return unfiltered.replaceAll("[\\/:*?\"<>|]", "_");
     }
+    
+    
     
     private static void checkForDirectory()
     {

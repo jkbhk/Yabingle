@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 public abstract class TaskObject
 {
     private boolean isProcessed = false;
+    private int taskPriority;
     
     public TaskObject()
     {
@@ -20,6 +21,7 @@ public abstract class TaskObject
         RunProcess(); 
         isProcessed = true;
     }
+    
 
     public boolean IsProcessed() 
     {
@@ -27,4 +29,5 @@ public abstract class TaskObject
     }
     
     public abstract void RunProcess();
+    
 }

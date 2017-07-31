@@ -15,57 +15,43 @@ import java.util.logging.Logger;
 public class YabingleThread extends Thread
 {
     private TaskObject taskObject;
-    private boolean isProcessing = false;
-
-    public boolean GetAvailableStatus() 
-    {
-        boolean isAvailable = (taskObject != null)? taskObject.IsProcessed() : true;
-        return (!isProcessing && isAvailable);
-    }
+    private boolean stopThread;
     
     public void SetRunnableObject(TaskObject ro)
     {
         this.taskObject = ro;
-        isProcessing = true;
+        stopThread = false;
     }
     
     public void ResetThread()
     {
         taskObject = null;
-        isProcessing = false;
+        stopThread = true;
     }
         
     @Override
     public void run()
     {
-        while(true)
+        while(!stopThread)
         {
             try 
             {
-                Thread.sleep(10);            
+                Thread.sleep(10);     
                 
-                if(taskObject != null)
+                if(taskObject == null || taskObject.IsProcessed())
                 {
-                    if(!taskObject.IsProcessed() && isProcessing)
-                    {
-                        taskObject.Run();
-                    }
-                    else if(taskObject.IsProcessed() && isProcessing)
-                    {
-                        isProcessing = false;
-                        ThreadManager.TryProcess();
-                    }
+                    taskObject = ThreadManager.GetNextProcess();
                 }
-            } 
-            catch (InterruptedException ex) 
-            {
-                //Logger.getLogger(YabingleThread.class.getName()).log(Level.SEVERE, null, ex);      
+           
+                if(taskObject != null && !taskObject.IsProcessed())
+                {
+                    taskObject.Run();
+                }
             }
             catch(Exception e)
             {
+                
             }
-            
-
         }
     }
 }

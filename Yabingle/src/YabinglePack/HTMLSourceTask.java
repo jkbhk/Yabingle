@@ -25,10 +25,9 @@ public class HTMLSourceTask extends TaskObject
         this.callback = callback;
         this.url = url;
         engine = null;
-        
     }
 
-    public HTMLSourceTask(Consumer<HTMLSourceTask> callback, String url, YabingleManager.EngineReference engine) 
+    public HTMLSourceTask(Consumer<HTMLSourceTask> callback, String url, YabingleManager.EngineReference engine)
     {
         this.callback = callback;
         this.url = url;

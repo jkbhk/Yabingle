@@ -25,63 +25,43 @@ public class ThreadManager
     
     public static void InitializeSearch(int noOfThread)
     {
-        if(taskQueue.size() > 0)
-        {
-            taskQueue.clear();
-        }
+        StopProcesses();
+
         
-        if(threadList.size() > 0)
+        for (int i = 0; i < noOfThread; i++)
         {
-            for (YabingleThread eachThread : threadList)
-            {
-                eachThread.ResetThread();
-            }
-        }
-        
-        if(threadList.size() < noOfThread)
-        {
-            int originalSize = threadList.size();
-            for (int i = 0; i < noOfThread - originalSize; i++)
-            {
-                YabingleThread thread = new YabingleThread();
-                thread.start();
-                threadList.add(thread);
-            }
-        }
-        else if (threadList.size() > noOfThread)
-        {
-            threadList.clear();
-            for (int i = 0; i < noOfThread; i++)
-            {
-                YabingleThread thread = new YabingleThread();
-                thread.start();
-                threadList.add(thread);
-            }
+            YabingleThread thread = new YabingleThread();
+            thread.start();
+            threadList.add(thread);
         }
     }
         
     public static void AddRequest(TaskObject requestObject)
     {
         taskQueue.add(requestObject);
-        TryProcess();
     }
    
-    public static void TryProcess()
-    {
+    public static void StopProcesses()
+    {   
+        if(taskQueue.size() > 0)
+        {
+            taskQueue.clear();
+        }
         if(threadList.size() > 0)
         {
-            for(YabingleThread thread : threadList)
+            for (YabingleThread eachThread : threadList)
             {
-                if(thread != null && thread.GetAvailableStatus())
-                {
-                    TaskObject ro = taskQueue.poll();
-                    if(ro != null)
-                    {                    
-                        thread.SetRunnableObject(ro);
-                        break;
-                    }
-                }
+                eachThread.ResetThread();
             }
+            threadList.clear();
         }
+        
+    }
+    
+    public static TaskObject GetNextProcess()
+    {
+        TaskObject ro = taskQueue.poll();
+                
+        return ro;
     }
 }
