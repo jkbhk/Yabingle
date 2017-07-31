@@ -33,6 +33,7 @@ public class YabingleManager
   
     }
     
+    public static String currentSearchWord;
     public static EngineReference Yahoo;
     public static EngineReference Bing;
     public static int noOfResults = 10;
@@ -62,6 +63,7 @@ public class YabingleManager
     public static void SearchText(String searchText)
     {
         ResetSearch();
+        currentSearchWord = searchText;
         SearchQuery(searchText, 1);
     }
     
@@ -129,18 +131,28 @@ public class YabingleManager
 //                searchTime = System.currentTimeMillis() - searchTime;
 //                homepage.SetText(String.valueOf(searchTime));
 //            }
-            HTMLSourceTask linkHTMLTask = new HTMLSourceTask(linkTask-> DownloadLink(linkTask), link);
+            HTMLSourceTask linkHTMLTask = new HTMLSourceTask(linkTask-> FindSearchPhrase(linkTask), link);
             ThreadManager.AddRequest(linkHTMLTask);
         }
     }
     
-    public static void DownloadLink(HTMLSourceTask htmlSource)
+    public static void FindSearchPhrase(HTMLSourceTask htmlSource)
     {
-        if(htmlSource.getPageSource() != null && !homepage.HaveUrlObject(htmlSource.getUrl()) && homepage.urlResults.size() < noOfResults)
+        if(htmlSource.getPageSource() != null)
         {
-            homepage.AddURLObject(new URLObject(htmlSource.getUrl(), htmlSource.getPageSource()));
+            SearchPhraseTask searchPhraseTask = new SearchPhraseTask(htmlSource, phraseTask -> DownloadLink(phraseTask));
+            
+            ThreadManager.AddRequest(searchPhraseTask);
+        }
+    }
+    
+    public static void DownloadLink(SearchPhraseTask searchTask)
+    {
+        if(!homepage.HaveUrlObject(searchTask.getSourceTask().getUrl()) && homepage.urlResults.size() < noOfResults)
+        {
+            homepage.AddURLObject(new URLObject(searchTask.getSourceTask().getUrl(), searchTask.getSourceTask().getPageSource(), searchTask.getSearchPhraseOccurance()));
 
-            System.out.println(htmlSource.getUrl());
+            System.out.println(searchTask.getSourceTask().getUrl());
 
             if(homepage.HaveNoOfLinks(noOfResults))
             {
@@ -152,13 +164,9 @@ public class YabingleManager
                 homepage.heartLabel.setVisible(true);
             }
 
-            DownloadTask downloadTask = new DownloadTask(htmlSource.getUrl()
-                , htmlSource.getPageSource().toString());
+            DownloadTask downloadTask = new DownloadTask(searchTask.getSourceTask().getUrl()
+                , searchTask.getSourceTask().getPageSource().toString());
             ThreadManager.AddRequest(downloadTask);
-        }
-        
-        
-        
+        }    
     }
-    
 }
