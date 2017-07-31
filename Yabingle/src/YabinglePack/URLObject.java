@@ -15,10 +15,12 @@ public class URLObject implements Serializable
 {
     private String url;
     private StringBuilder pageSource;
+    private int noOfOccuranceOfSearchPhrase;
 
-    public URLObject(String url, StringBuilder pageSource) {
+    public URLObject(String url, StringBuilder pageSource, int noOfOccuranceOfSearchPhrase) {
         this.url = url;
         this.pageSource = pageSource;
+        this.noOfOccuranceOfSearchPhrase = noOfOccuranceOfSearchPhrase;
     }
     
     public String getUrl() {
