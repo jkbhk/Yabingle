@@ -6,11 +6,18 @@
 package YabinglePack;
 
 import java.awt.Component;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.filechooser.FileSystemView;
 
 
 /**
@@ -81,6 +88,11 @@ public class Homepage extends javax.swing.JFrame
 
         unluckyButton.setForeground(new java.awt.Color(51, 51, 51));
         unluckyButton.setText("I'm feeling unlucky!");
+        unluckyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unluckyButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -300,6 +312,25 @@ public class Homepage extends javax.swing.JFrame
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jComboBox1PropertyChange
+
+    private void unluckyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unluckyButtonActionPerformed
+        // TODO add your handling code here:
+       
+        JFileChooser jfc = new JFileChooser("downloaded files");
+        int returnValue = jfc.showOpenDialog(null);
+	File file = null;
+        if (returnValue == JFileChooser.APPROVE_OPTION)
+            file = jfc.getSelectedFile();
+        
+        try 
+        {   
+            Desktop.getDesktop().open(file) ;
+        } 
+        catch (IOException ex) {
+           Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_unluckyButtonActionPerformed
 
     public void SetText(String msg)
     {

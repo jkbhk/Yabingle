@@ -13,22 +13,22 @@ import java.net.URL;
  */
 public class BasicBrowser extends javax.swing.JFrame {
 
-    private String link;
-    
-    
-    public BasicBrowser(String link){
+       
+    public BasicBrowser(URLObject urlobj){
         initComponents();
         setVisible(true);
+        jEditorPane1.setContentType("text/html");
         
-        this.link = link;
         
         try
         {
-            this.jEditorPane1.setPage(new URL(link));
+            this.jEditorPane1.setText(urlobj.getPageSource().toString());
+            this.add(jEditorPane1);
+            throw new IOException("hey");
         }
         catch(IOException e)
         {
-            System.err.println("invalid url :(");
+            
         }
         
     }
@@ -47,7 +47,7 @@ public class BasicBrowser extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(jEditorPane1);
 
